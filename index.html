@@ -78,6 +78,19 @@
         .btn-clear:hover {
             background-color: #e53e3e;
         }
+        .btn-link {
+            background-color: #48bb78; /* Greenish button */
+            color: #1a202c;
+            text-decoration: none; /* Remove underline from the link */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .btn-link:hover {
+            background-color: #38a169;
+        }
         .message-box {
             position: fixed;
             bottom: 2rem;
@@ -116,6 +129,7 @@
         <div class="btn-container">
             <button id="copyBtn" class="btn btn-copy">คัดลอกผลลัพธ์</button>
             <button id="clearBtn" class="btn btn-clear">ล้างข้อความ</button>
+            <a href="https://themuiz99.github.io/Count-the-letters/" target="_blank" class="btn btn-link">นับตัวอักษร</a>
         </div>
 
         <!-- Message Box for Copy Confirmation -->
