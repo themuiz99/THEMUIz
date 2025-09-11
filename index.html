@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THEMUIz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a; /* Deep black background */
+            color: #f0f0f0; /* Very light text */
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevent scrolling for the entire page */
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 1.5rem;
+            background-color: #1c1c1c; /* Dark gray container */
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: #2d2d2d; /* Slightly lighter textarea */
+            border: 1px solid #3d3d3d;
+            color: #f0f0f0;
+            font-size: 0.875rem; /* Small font size */
+            resize: none;
+            height: 200px; /* Fixed height for both text areas */
+        }
+        .textarea:focus {
+            outline: none;
+            border-color: #63b3ed;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+        }
+        .textarea[readonly] {
+            cursor: default;
+            overflow-y: auto; /* Enable scrolling for the readonly box */
+        }
+        .btn-container {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .btn-copy {
+            background-color: #63b3ed;
+            color: #1a202c;
+        }
+        .btn-copy:hover {
+            background-color: #4299e1;
+        }
+        .btn-clear {
+            background-color: #f56565;
+            color: #1a202c;
+        }
+        .btn-clear:hover {
+            background-color: #e53e3e;
+        }
+        .message-box {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #48bb78;
+            color: #1a202c;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 10;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+    <div class="container">
+        <h1 class="text-3xl font-bold text-center mb-4">THEMUIz</h1>
+        
+        <!-- Input Text Area -->
+        <div class="input-section">
+            <label for="inputText" class="block mb-2 text-sm font-medium">วางข้อความที่นี่:</label>
+            <textarea id="inputText" class="textarea" placeholder="วางข้อความที่มีสัญลักษณ์และเครื่องหมาย..."></textarea>
+        </div>
+        
+        <!-- Output Text Area -->
+        <div class="output-section">
+            <label for="outputText" class="block mb-2 text-sm font-medium">ผลลัพธ์ (ข้อความที่ลบแล้ว):</label>
+            <textarea id="outputText" class="textarea" readonly placeholder="ผลลัพธ์จะแสดงที่นี่โดยอัตโนมัติ..."></textarea>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="btn-container">
+            <button id="copyBtn" class="btn btn-copy">คัดลอกผลลัพธ์</button>
+            <button id="clearBtn" class="btn btn-clear">ล้างข้อความ</button>
+        </div>
+
+        <!-- Message Box for Copy Confirmation -->
+        <div id="messageBox" class="message-box">คัดลอกแล้ว!</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputTextarea = document.getElementById('inputText');
+            const outputTextarea = document.getElementById('outputText');
+            const copyButton = document.getElementById('copyBtn');
+            const clearButton = document.getElementById('clearBtn');
+            const messageBox = document.getElementById('messageBox');
+
+            // Function to clean the text
+            function cleanText(text) {
+                // Regex to keep only alphanumeric, Thai characters, spaces, and the specified symbols
+                const regex = /[^a-zA-Z0-9\u0E00-\u0E7F.,()"'\s]/g;
+                return text.replace(regex, '');
+            }
+
+            // Real-time cleaning on input
+            inputTextarea.addEventListener('input', () => {
+                const cleanedText = cleanText(inputTextarea.value);
+                outputTextarea.value = cleanedText;
+            });
+
+            // Copy button functionality
+            copyButton.addEventListener('click', () => {
+                if (outputTextarea.value) {
+                    try {
+                        navigator.clipboard.writeText(outputTextarea.value).then(() => {
+                            showMessage('คัดลอกแล้ว!');
+                        }).catch(err => {
+                            console.error('Failed to copy via clipboard API: ', err);
+                            // Fallback for older browsers or if API fails
+                            fallbackCopyTextToClipboard(outputTextarea.value);
+                        });
+                    } catch (err) {
+                        console.error('navigator.clipboard is not available, using fallback: ', err);
+                        fallbackCopyTextToClipboard(outputTextarea.value);
+                    }
+                }
+            });
+
+            function fallbackCopyTextToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed'; // Avoid scrolling to bottom
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showMessage('คัดลอกแล้ว!');
+                } catch (err) {
+                    console.error('Fallback: Failed to copy text: ', err);
+                    showMessage('คัดลอกไม่ได้! กรุณาลองใหม่');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            // Clear button functionality
+            clearButton.addEventListener('click', () => {
+                inputTextarea.value = '';
+                outputTextarea.value = '';
+            });
+
+            // Function to show a temporary message box
+            function showMessage(message) {
+                messageBox.textContent = message;
+                messageBox.classList.add('show');
+                setTimeout(() => {
+                    messageBox.classList.remove('show');
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
