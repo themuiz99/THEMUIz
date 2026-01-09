@@ -9,41 +9,46 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a; /* Deep black background */
-            color: #f0f0f0; /* Very light text */
+            background-color: #0a0a0a;
+            color: #f0f0f0;
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Center vertically */
+            justify-content: center;
             align-items: center;
-            overflow: hidden; /* CRITICAL: Prevent body scrolling */
+            overflow: hidden;
         }
         .container {
             width: 95%;
             max-width: 800px;
             padding: 1rem;
-            margin: 0.5rem 0; /* Reduced margin */
-            max-height: 98vh; /* Ensure it fits the screen height */
-            background-color: #1c1c1c; /* Dark gray container */
+            margin: 0.5rem 0;
+            max-height: 98vh;
+            background-color: #1c1c1c;
             border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
-            gap: 0.75rem; /* Reduced gap */
+            gap: 0.75rem;
+        }
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
         .textarea {
             width: 100%;
             padding: 0.75rem;
             border-radius: 0.5rem;
-            background-color: #2d2d2d; /* Slightly lighter textarea */
+            background-color: #2d2d2d;
             border: 1px solid #3d3d3d;
             color: #f0f0f0;
             font-size: 0.875rem;
             resize: none;
-            height: 150px; /* Reduced fixed height for single-view fit */
-            flex-shrink: 0; /* Prevent shrinking below this height */
+            height: 140px;
+            flex-shrink: 0;
         }
         .textarea:focus {
             outline: none;
@@ -52,11 +57,19 @@
         }
         .textarea[readonly] {
             cursor: default;
-            overflow-y: auto; /* Enable internal scrolling */
+            overflow-y: auto;
+        }
+        /* Counter styling */
+        .char-counter {
+            text-align: right;
+            font-size: 0.7rem;
+            color: #718096;
+            margin-top: 0.25rem;
+            padding-right: 0.25rem;
         }
         .btn-container {
             display: flex;
-            gap: 0.5rem; /* Reduced gap */
+            gap: 0.5rem;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -64,7 +77,7 @@
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             font-weight: bold;
-            transition: all 0.3s ease-in-out; /* Smoother transition */
+            transition: all 0.3s ease-in-out;
             cursor: pointer;
             flex-grow: 1;
             min-width: 120px;
@@ -72,48 +85,34 @@
             border: none;
         }
         .btn:hover {
-            transform: translateY(-2px) scale(1.02); /* Pop effect on hover */
+            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- VIBRANT BUTTON STYLING --- */
-
         .btn-copy {
-            background-image: linear-gradient(to right, #4F46E5, #3B82F6); /* Indigo to Blue */
+            background-image: linear-gradient(to right, #4F46E5, #3B82F6);
             color: #ffffff;
-        }
-        .btn-copy:hover {
-            background-image: linear-gradient(to right, #6366F1, #2563EB);
         }
         .btn-clear {
-            background-image: linear-gradient(to right, #EF4444, #F97316); /* Red to Orange */
+            background-image: linear-gradient(to right, #EF4444, #F97316);
             color: #ffffff;
         }
-        .btn-clear:hover {
-            background-image: linear-gradient(to right, #DC2626, #EA580C);
-        }
         .btn-link {
-            background-image: linear-gradient(to right, #10B981, #06B6D4); /* Emerald to Cyan */
+            background-image: linear-gradient(to right, #10B981, #06B6D4);
             color: #1a202c;
-        }
-        .btn-link:hover {
-            background-image: linear-gradient(to right, #059669, #0891B2);
         }
         
-        /* Toggle Button Styles */
         .btn-toggle-off {
-            background-color: #4a5568; /* Darker gray for OFF */
+            background-color: #4a5568;
             color: #f0f0f0;
         }
-        .btn-toggle-off:hover {
-            background-color: #2d3748;
-        }
         .btn-toggle-on {
-            background-image: linear-gradient(to right, #F59E0B, #F97316); /* Yellow to Orange for ON */
+            background-image: linear-gradient(to right, #F59E0B, #F97316);
             color: #1a202c;
         }
-        .btn-toggle-on:hover {
-            background-image: linear-gradient(to right, #D97706, #F56565);
+        .btn-toggle-all-on {
+            background-image: linear-gradient(to right, #8B5CF6, #D946EF);
+            color: #ffffff;
         }
 
         .message-box {
@@ -121,7 +120,7 @@
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #10B981; /* Success Green */
+            background-color: #10B981;
             color: #1a202c;
             padding: 0.75rem 1.5rem;
             border-radius: 0.5rem;
@@ -136,37 +135,34 @@
 </head>
 <body class="bg-gray-900 text-gray-200">
     <div class="container">
-        <!-- The Main Header/Title -->
-        <h1 class="text-3xl font-bold text-center mb-4 text-yellow-400">เครื่องมือลบสัญลักษณ์</h1>
+        <h1 class="text-3xl font-bold text-center mb-2 text-yellow-400">เครื่องมือลบสัญลักษณ์</h1>
         
-        <!-- Input Text Area -->
-        <div class="input-section">
-            <label for="inputText" class="block mb-2 text-sm font-medium">วางข้อความต้นฉบับที่นี่:</label>
+        <!-- Input Section -->
+        <div class="input-group">
+            <label for="inputText" class="block mb-1 text-sm font-medium">วางข้อความต้นฉบับที่นี่:</label>
             <textarea id="inputText" class="textarea" placeholder="วางข้อความที่มีสัญลักษณ์และเครื่องหมาย..."></textarea>
+            <div id="inputCount" class="char-counter">0 ตัวอักษร</div>
         </div>
         
-        <!-- Output Text Area -->
-        <div class="output-section">
-            <label for="outputText" class="block mb-2 text-sm font-medium">ผลลัพธ์:</label>
+        <!-- Output Section -->
+        <div class="input-group">
+            <label for="outputText" class="block mb-1 text-sm font-medium">ผลลัพธ์:</label>
             <textarea id="outputText" class="textarea" readonly placeholder="ผลลัพธ์จะแสดงที่นี่..."></textarea>
+            <div id="outputCount" class="char-counter">0 ตัวอักษร</div>
         </div>
         
         <!-- Buttons -->
         <div class="btn-container">
-            <!-- Toggle Button for Reference Removal -->
             <button id="toggleRefsBtn" class="btn btn-toggle-off">ลบแหล่งอ้างอิง: ปิด</button>
-
-            <!-- Toggle Button for Symbol Removal -->
             <button id="toggleSymbolsBtn" class="btn btn-toggle-off">ลบสัญลักษณ์: ปิด</button>
+            <button id="toggleAllBtn" class="btn btn-toggle-off">ลบทุกอย่าง: ปิด</button>
 
             <button id="copyBtn" class="btn btn-copy">คัดลอกผลลัพธ์</button>
             <button id="clearBtn" class="btn btn-clear">ล้างข้อความ</button>
             
-            <!-- Link: Correctly set to open in the current tab -->
             <a href="https://themuiz99.github.io/Count-the-letters/" class="btn btn-link">นับตัวอักษร</a>
         </div>
 
-        <!-- Message Box for Copy Confirmation -->
         <div id="messageBox" class="message-box">คัดลอกแล้ว!</div>
     </div>
 
@@ -174,135 +170,123 @@
         document.addEventListener('DOMContentLoaded', () => {
             const inputTextarea = document.getElementById('inputText');
             const outputTextarea = document.getElementById('outputText');
+            const inputCount = document.getElementById('inputCount');
+            const outputCount = document.getElementById('outputCount');
             const copyButton = document.getElementById('copyBtn');
             const clearButton = document.getElementById('clearBtn');
             const toggleRefsBtn = document.getElementById('toggleRefsBtn');
             const toggleSymbolsBtn = document.getElementById('toggleSymbolsBtn');
+            const toggleAllBtn = document.getElementById('toggleAllBtn');
             const messageBox = document.getElementById('messageBox');
 
-            // State to track if cleaning features are active
             let isReferenceRemovalEnabled = false;
             let isSymbolRemovalEnabled = false;
+            let isRemoveAllEnabled = false;
 
-            // Function to remove all symbols except the allowed list: ()+-×%=“”,. @ - " ' และ digits/letters/spaces
             function removeSymbols(text) {
-                // Regex to KEEP (i.e., NOT remove) Thai/English letters, numbers, spaces, and the explicitly allowed symbols.
-                // Allowed: a-zA-Z, 0-9, Thai (\u0E00-\u0E7F), space (\s), ( ) + - × % = “ ” , . @ " '
                 const allowedSymbolsRegex = /[^a-zA-Z0-9\u0E00-\u0E7F\s()+\-×%=“”,.@"']/g;
                 return text.replace(allowedSymbolsRegex, '');
             }
 
-            // Function to process the text based on the toggle states
-            function processText() {
-                let text = inputTextarea.value;
-                
-                // 1. Remove references if enabled (Applied first to clean up [1], [2], etc.)
-                if (isReferenceRemovalEnabled) {
-                    // Regex to find and replace reference brackets like [1], [2], [10] and preceding whitespace
-                    const refRegex = /\s*\[\d+\]/g; 
-                    text = text.replace(refRegex, '');
-                }
-
-                // 2. Remove general symbols if enabled
-                if (isSymbolRemovalEnabled) {
-                    text = removeSymbols(text);
-                }
-
-                // Update the output
-                outputTextarea.value = text;
+            function removeStrictEverything(text) {
+                return text.replace(/[^a-zA-Z0-9\u0E00-\u0E7F]/g, '');
             }
 
-            // Function to handle the reference toggle button click
+            function processText() {
+                let originalText = inputTextarea.value;
+                let processedText = originalText;
+                
+                // Update input count
+                inputCount.textContent = `${originalText.length} ตัวอักษร`;
+
+                if (isRemoveAllEnabled) {
+                    processedText = removeStrictEverything(processedText);
+                } else {
+                    if (isReferenceRemovalEnabled) {
+                        processedText = processedText.replace(/\s*\[\d+\]/g, '');
+                    }
+                    if (isSymbolRemovalEnabled) {
+                        processedText = removeSymbols(processedText);
+                    }
+                }
+
+                outputTextarea.value = processedText;
+                // Update output count
+                outputCount.textContent = `${processedText.length} ตัวอักษร`;
+            }
+
             function toggleReferenceRemoval() {
                 isReferenceRemovalEnabled = !isReferenceRemovalEnabled;
-                
-                if (isReferenceRemovalEnabled) {
-                    toggleRefsBtn.textContent = 'ลบแหล่งอ้างอิง: เปิด';
-                    toggleRefsBtn.classList.remove('btn-toggle-off');
-                    toggleRefsBtn.classList.add('btn-toggle-on');
-                } else {
-                    toggleRefsBtn.textContent = 'ลบแหล่งอ้างอิง: ปิด';
-                    toggleRefsBtn.classList.remove('btn-toggle-on');
-                    toggleRefsBtn.classList.add('btn-toggle-off');
-                }
-                
-                // Process the current input immediately after toggling
+                updateToggleUI(toggleRefsBtn, isReferenceRemovalEnabled, 'ลบแหล่งอ้างอิง');
                 processText();
             }
 
-            // Function to handle the symbol toggle button click
             function toggleSymbolRemoval() {
                 isSymbolRemovalEnabled = !isSymbolRemovalEnabled;
-                
-                if (isSymbolRemovalEnabled) {
-                    toggleSymbolsBtn.textContent = 'ลบสัญลักษณ์: เปิด';
-                    toggleSymbolsBtn.classList.remove('btn-toggle-off');
-                    toggleSymbolsBtn.classList.add('btn-toggle-on');
-                } else {
-                    toggleSymbolsBtn.textContent = 'ลบสัญลักษณ์: ปิด';
-                    toggleSymbolsBtn.classList.remove('btn-toggle-on');
-                    toggleSymbolsBtn.classList.add('btn-toggle-off');
-                }
-                
-                // Process the current input immediately after toggling
+                updateToggleUI(toggleSymbolsBtn, isSymbolRemovalEnabled, 'ลบสัญลักษณ์');
                 processText();
             }
 
+            function toggleAllRemoval() {
+                isRemoveAllEnabled = !isRemoveAllEnabled;
+                if (isRemoveAllEnabled) {
+                    toggleAllBtn.textContent = 'ลบทุกอย่าง: เปิด';
+                    toggleAllBtn.classList.remove('btn-toggle-off');
+                    toggleAllBtn.classList.add('btn-toggle-all-on');
+                } else {
+                    toggleAllBtn.textContent = 'ลบทุกอย่าง: ปิด';
+                    toggleAllBtn.classList.remove('btn-toggle-all-on');
+                    toggleAllBtn.classList.add('btn-toggle-off');
+                }
+                processText();
+            }
 
-            // --- Event Listeners ---
+            function updateToggleUI(btn, state, label) {
+                if (state) {
+                    btn.textContent = `${label}: เปิด`;
+                    btn.classList.remove('btn-toggle-off');
+                    btn.classList.add('btn-toggle-on');
+                } else {
+                    btn.textContent = `${label}: ปิด`;
+                    btn.classList.remove('btn-toggle-on');
+                    btn.classList.add('btn-toggle-off');
+                }
+            }
 
-            // Real-time processing on input change
             inputTextarea.addEventListener('input', processText);
-
-            // Toggle button functionalities
             toggleRefsBtn.addEventListener('click', toggleReferenceRemoval);
             toggleSymbolsBtn.addEventListener('click', toggleSymbolRemoval);
+            toggleAllBtn.addEventListener('click', toggleAllRemoval);
 
-
-            // Copy button functionality (using fallback execCommand for compatibility)
             copyButton.addEventListener('click', () => {
                 if (outputTextarea.value) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = outputTextarea.value;
+                    textarea.style.position = 'fixed'; 
+                    document.body.appendChild(textarea);
+                    textarea.select();
                     try {
-                        fallbackCopyTextToClipboard(outputTextarea.value);
+                        document.execCommand('copy');
+                        showMessage('คัดลอกแล้ว!');
                     } catch (err) {
-                        console.error('Copy failed: ', err);
-                        showMessage('คัดลอกไม่ได้! กรุณาลองใหม่');
+                        showMessage('คัดลอกไม่ได้!');
                     }
+                    document.body.removeChild(textarea);
                 }
             });
 
-            function fallbackCopyTextToClipboard(text) {
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed'; 
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    showMessage('คัดลอกแล้ว!');
-                } catch (err) {
-                    console.error('Fallback: Failed to copy text: ', err);
-                    showMessage('คัดลอกไม่ได้! กรุณาลองใหม่');
-                }
-                document.body.removeChild(textarea);
-            }
-
-            // Clear button functionality
             clearButton.addEventListener('click', () => {
                 inputTextarea.value = '';
                 outputTextarea.value = '';
+                processText();
             });
 
-            // Function to show a temporary message box
             function showMessage(message) {
                 messageBox.textContent = message;
                 messageBox.classList.add('show');
-                setTimeout(() => {
-                    messageBox.classList.remove('show');
-                }, 2000);
+                setTimeout(() => messageBox.classList.remove('show'), 2000);
             }
 
-            // Initial call to processText to set up the output box
             processText(); 
         });
     </script>
